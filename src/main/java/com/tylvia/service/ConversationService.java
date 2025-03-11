@@ -25,4 +25,8 @@ public class ConversationService {
         System.out.println("Conversations: " + conversations);
         return conversations;
     }
+
+    public List<Conversation> getConversationsByUserId(String userId) {
+        return conversationRepository.findByParticipants(userId);
+    }
 }

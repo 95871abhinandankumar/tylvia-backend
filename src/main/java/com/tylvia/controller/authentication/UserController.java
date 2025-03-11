@@ -1,5 +1,8 @@
 package com.tylvia.controller.authentication;
 
+import com.sun.net.httpserver.Authenticator;
+import com.tylvia.Utils.JwtUtil;
+import com.tylvia.model.User;
 import com.tylvia.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -24,21 +27,24 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            return ResponseEntity.badRequest().body("Username is already taken");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
 
+
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
-        User foundUser = userRepository.findByUsername(user.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+        User foundUser = userRepository.findByEmail(user.getEmail());
 
         if (!passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
-
-        String token = jwtUtil.generateToken(user.getUsername());
-        return ResponseEntity.ok(Map.of("token", token));
+        return ResponseEntity.ok(Map.of("Success", "Login successful"));
     }
 }

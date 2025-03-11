@@ -28,18 +28,6 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<Map<String, List<?>>> testConnection() {
-//        User testUser = new User();
-//        testUser.setId("testId");
-//        testUser.setUsername("Test User");
-//        testUser.setEmail("testuser@example.com");
-//        testUser.setPhone("123-456-7890");
-//        testUser.setProfileImageUrl("http://example.com/profile.jpg");
-//        testUser.setStatusMessage("Hello World!");
-//        testUser.setLastSeen(LocalDateTime.now());
-//        testUser.setCreatedAt(LocalDateTime.now());
-//        testUser.setUpdatedAt(LocalDateTime.now());
-//        this.userService.createUser(testUser);
-
         Map<String, List<?>> map = new HashMap<>();
         System.out.println(this.messageService.getAllMessages());
         System.out.println(this.conversationService.getAllConversations());
